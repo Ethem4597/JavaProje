@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 
 public class Main extends Application {
@@ -23,82 +24,56 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Pane pane =new Pane();
-        BarChart sutun =new BarChart(Read.readText(-4),Read.readText(-3));
-        //sutun.createBarChart(Sort.sortBars(Bar.createBars(0,75)));
+        boolean barvisible=true;
 
+        Pane pane = new Pane();
+        pane.setPrefSize(800, 800);
+        BarChart sutun = new BarChart(Read.readText(-4), Read.readText(-3));
 
-        pane.widthProperty().addListener((observable, oldvalue, newvalue) ->
+        if (barvisible)
         {
-            Chart.barChart.setPrefWidth((Double)newvalue);
-            //barChart.setBarGap(-(double) newvalue/20);
-            //System.out.println("width  "+newvalue);
-        });
-        pane.heightProperty().addListener((observable, oldvalue, newvalue) ->
-        {
-            Chart.barChart.setPrefHeight((Double) newvalue);
-            Chart.barChart.setBarGap(-(double) newvalue/20);
-            //barChart.setCategoryGap((double) newvalue/20);
-            //System.out.println("height  "+newvalue);
-        });
+
+            //sutun.createBarChart(Sort.sortBars(Bar.createBars(0,75)));
+
+            //barchartı pencere boyutuna göre uyarlama
+
+            pane.widthProperty().addListener((observable, oldvalue, newvalue) ->
+            {
+                Chart.barChart.setPrefWidth((Double) newvalue);
+                //barChart.setBarGap(-(double) newvalue/20);
+                //System.out.println("width  "+newvalue);
+            });
+            pane.heightProperty().addListener((observable, oldvalue, newvalue) ->
+            {
+                Chart.barChart.setPrefHeight((Double) newvalue);
+                Chart.barChart.setBarGap(0);
+                //barChart.setCategoryGap((double) newvalue/20);
+                //System.out.println("height  "+newvalue);
+            });
 
 
-        pane.getChildren().add(sutun.createBarChart(Sort.sortBars(Bar.createBars(0))));
-
-        //Sort.sortBars(Bar.createBars(0)).
-
-        //Sort.sortBarChart(sutun.barChart);
-
-        //pane.getChildren().add(sutun.createBarChart(Sort.sortBars(Bar.createBars(1))));
-
-        //sutun.barChart.getData().get(0).getData().sort(Comparator.comparingDouble(d -> d.getXValue().doubleValue()));
+            pane.getChildren().add(sutun.createBarChart(Sort.sortBars(Bar.createBars(0))));
 
 
-        /*
-        double pos1 = Chart.barChart.getData().get(0).getData().get(0).getNode().localToScene(Chart.barChart.getData().get(0).getData().get(0).getNode().getBoundsInLocal()).getMinX();
-        double pos2 = Chart.barChart.getData().get(0).getData().get(6).getNode().localToScene(Chart.barChart.getData().get(0).getData().get(6).getNode().getBoundsInLocal()).getMinX();
-        double diff = pos1 - pos2;
-*/
-        //ArrayList<Bar> barlist= new ArrayList<>();
-        //barlist.addAll(Sort.sortBars(Bar.createBars(216)));
+            int a = 3;
 
 
-/*
-        Timeline tl = new Timeline();
-        tl.getKeyFrames().add(new KeyFrame(Duration.millis(100),
-                new EventHandler<ActionEvent>() {
-                    @Override public void handle(ActionEvent actionEvent) {
+            Timeline tl = new Timeline();
+            tl.getKeyFrames().add(
+                    new KeyFrame(Duration.millis(1000), new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent actionEvent) {
 
 
-
-                        for (int i =0 ;i<10;i++)//toplamdaki bar sayısı
-                        {
-                            for (int j=0;j<Chart.barChart.getData().size();j++)//barchartın toplam seri sayısı
-                            {
-                                for (int k=0;k<Chart.barChart.getData().get(j).getData().size();k++)//serilerin toplam bar sayısı
-                                {
-                                    //Chart.barChart.getData().get(j).getData().get(k).setXValue(barlist.get(i).getValue());
-
-                                    if (barlist.get(i).getName().equals(Chart.barChart.getData().get(j).getData().get(k).getYValue())) {
-                                        Chart.barChart.getData().get(j).getData().get(k).setXValue(barlist.get(i).getValue());
-                                    }
-
+                            for (int i = 1; i <= a; i++) {
+                                ArrayList<Bar> bars = new ArrayList<>();
+                                bars.clear();
+                                bars.addAll(Sort.sortBars(Bar.createBars(i)));
+                                for (int j = 0; j < 10; j++) {
+                                    Chart.barChart.getData().get(0).getData().get(j).setXValue(bars.get(j).getValue());
+                                    Chart.barChart.getData().get(0).getData().get(j).setYValue(bars.get(j).getName());
                                 }
                             }
-
-                        }
-/*
-                        TranslateTransition tt1 = new TranslateTransition(Duration.millis(3000), Chart.barChart.getData().get(0).getData().get(6).getNode());
-                        tt1.setByY(338);
-                        tt1.setCycleCount(1);
-                        tt1.play();
-
-                        TranslateTransition tt2 = new TranslateTransition(Duration.millis(3000), Chart.barChart.getData().get(0).getData().get(0).getNode());
-                        tt2.setByY(-338);
-                        tt2.setCycleCount(1);
-                        tt2.play();
-
- */
 
                         /*
                         for (XYChart.Series<Number, String> series : sutun.barChart.getData()) {
@@ -109,19 +84,38 @@ public class Main extends Application {
                             }
                         }
                         */
-/*
 
-                    }
-                }));
-        tl.setCycleCount(216);
-        tl.play();
+
+                        }
+                    })
+                    //new KeyFrame(Duration.seconds(1.0), e -> Chart.barChart.getData().get(0).getData().sort(Comparator.comparingDouble(d -> d.getXValue().doubleValue())))
+            );
+            tl.setCycleCount(Animation.INDEFINITE);
+            tl.play();
+/*
+            Timeline timeline = new Timeline();
+            timeline.getKeyFrames().add(
+                    new KeyFrame(Duration.millis(1000), new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent actionEvent) {
+                            //System.out.println("dgfdfgh");
+                            //Chart.barChart.getData().get(0).getData().sort(Comparator.comparingDouble(d -> d.getXValue().doubleValue()));
+                        }
+                    }));
+            timeline.setCycleCount(0);//Animation.INDEFINITE);
+            timeline.play();
 */
 
+            primaryStage.setTitle("Hello World");
+            primaryStage.setScene(new Scene(pane, 800, 800));
+            primaryStage.show();
+        }
 
+        else//linechart
+        {
 
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(pane, 800, 700));
-        primaryStage.show();
+        }
+
 
 
     }

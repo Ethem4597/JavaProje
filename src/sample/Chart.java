@@ -21,11 +21,14 @@ public abstract class Chart{
 
     public static BarChart<Number,String> barChart=new BarChart(nAxis,cAxis);
 
+
     public Chart(String title, String xAxisLabel)
     {
         this.title=title;
         this.xAxisLabel=xAxisLabel;
         setCaption(title);
+        barChart.setPrefSize(800,800);
+        barChart.setBarGap(-40);
     }
 
 

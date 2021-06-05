@@ -26,6 +26,7 @@ public class Sort {
         }
 
         ArrayList<Bar> bars1 =new ArrayList<>();
+        bars1.clear();
         for (int i=9;i>-1;i--)
         {
             bars1.add(barlist.get(i));

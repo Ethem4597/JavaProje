@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.scene.chart.XYChart;
+
 import java.util.ArrayList;
 
 public class Bar implements Comparable<Bar>{
@@ -38,7 +40,7 @@ public class Bar implements Comparable<Bar>{
 
     public static ArrayList<Bar> createBars(int index) {
         ArrayList<Bar> barlist = new ArrayList<Bar>();
-
+        barlist.clear();
         int endPoint = -3;
         int amountofRecords=0;//0-75      77-177      179-279
         int startPoint=0;
